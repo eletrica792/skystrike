@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SKY STRIKE CINEMATIC — Combate Aéreo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="loading-screen">
+  <div class="load-box">
+    <div class="load-logo">SKY<span>STRIKE</span></div>
+    <div class="load-sub">CINEMATIC COMBAT</div>
+    <div class="load-track"><div class="load-fill" id="load-bar"></div></div>
+    <div class="load-txt" id="load-text">Carregando...</div>
+  </div>
+</div>
+
+<div id="main-menu" class="screen hidden">
+  <div class="menu-inner">
+    <h1 class="logo">SKY<span>STRIKE</span></h1>
+    <p class="tagline">CINEMATIC AIR COMBAT · V5.1.1 · COCKPIT ABERTO</p>
+    <nav class="nav">
+      <button class="btn" id="btn-play">Iniciar Missão</button>
+      <button class="btn" id="btn-controls">Configuração do Controle</button>
+      <button class="btn" id="btn-howto">Instruções</button>
+      <button class="btn dim" id="btn-fs">Tela Cheia</button>
+    </nav>
+    <div class="record" id="menu-record"></div>
+  </div>
+</div>
+
+<div id="ctrl-screen" class="screen hidden">
+  <div class="dark-bg"></div>
+  <div class="panel wide">
+    <h2>Configuração do Controle</h2>
+    <div id="ctrl-body"></div>
+    <div class="pbtns">
+      <button class="btn sm" id="btn-cal">Calibração Guiada</button>
+      <button class="btn sm dim" id="btn-ctrl-back">Voltar</button>
+    </div>
+  </div>
+</div>
+
+<div id="cal-screen" class="screen hidden">
+  <div class="dark-bg"></div>
+  <div class="panel">
+    <h2>Calibração</h2>
+    <p id="cal-text" class="cal-p"></p>
+    <div id="cal-viz" class="cal-viz"></div>
+    <div class="pbtns">
+      <button class="btn sm" id="btn-cal-next">Próximo</button>
+      <button class="btn sm dim" id="btn-cal-cancel">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<div id="howto-screen" class="screen hidden">
+  <div class="dark-bg"></div>
+  <div class="panel wide">
+    <h2>Instruções</h2>
+    <div class="cols">
+      <div>
+        <h3>Teclado</h3>
+        <p><kbd>A</kbd><kbd>←</kbd> / <kbd>D</kbd><kbd>→</kbd> Virar</p>
+        <p><kbd>S</kbd><kbd>↓</kbd> Puxar / Subir · <kbd>W</kbd><kbd>↑</kbd> Empurrar / Descer</p>
+        <p><kbd>Espaço</kbd> Metralhadora</p>
+        <p><kbd>X</kbd> Míssil (com trava)</p>
+        <p><kbd>C</kbd> Câmera · <kbd>P</kbd> Pausar · <kbd>F</kbd> Tela cheia</p>
+      </div>
+      <div>
+        <h3>Joystick Arduino</h3>
+        <p>Eixo X → Virar (rolagem)</p>
+        <p>Eixo Y → <b>Puxar para trás: subir</b> · Empurrar para frente: descer</p>
+        <p>Botão → Metralhadora</p>
+        <h3>Manobra de Loop</h3>
+        <p>Ganhe altura e mantenha o manche puxado para trás. O caça pode passar pela vertical, ficar de cabeça para baixo e completar 360°.</p>
+        <h3>Campanha</h3>
+        <p>A missão principal possui <b>8 ondas</b>. A partir das ondas intermediárias, novos inimigos entram como reforço para evitar excesso de caças simultâneos.</p>
+        <p>Ao concluir a onda 8, o combate termina e o caça <b>retorna automaticamente ao porta-aviões</b>. A missão só é encerrada depois do pouso e do debriefing com o capitão.</p>
+        <p>O HUD mostra o <b>tempo total da missão</b>. Depois do debriefing você pode iniciar uma nova missão ou seguir para o Modo Sobrevivência.</p>
+        <h3>Mira Assistida</h3>
+        <p>Aponte perto do inimigo: o círculo de mira <b style="color:#38e1ff">azul</b> mostra onde atirar. Seus tiros corrigem a trajetória automaticamente.</p>
+        <p>Mantenha um alvo na mira para <b style="color:#f04438">travar o míssil</b> — dispare com X.</p>
+      </div>
+    </div>
+    <div class="pbtns"><button class="btn sm dim" id="btn-howto-back">Voltar</button></div>
+  </div>
+</div>
+
+<div id="pause-screen" class="screen hidden">
+  <div class="dark-bg"></div>
+  <div class="panel small center">
+    <h2>PAUSADO</h2>
+    <button class="btn" id="btn-resume">Continuar</button>
+    <button class="btn dim" id="btn-quit">Menu</button>
+  </div>
+</div>
+
+<div id="over-screen" class="screen hidden">
+  <div class="dark-bg"></div>
+  <div class="panel small center">
+    <h2 id="over-title">ABATIDO</h2>
+    <div id="over-stats"></div>
+    <button class="btn hidden" id="btn-survival">Continuar — Modo Sobrevivência</button>
+    <button class="btn" id="btn-retry">Nova Missão</button>
+    <button class="btn dim" id="btn-over-menu">Menu</button>
+  </div>
+</div>
+
+<!-- HUD -->
+<div id="hud" class="hidden">
+  <canvas id="hud-canvas"></canvas>
+  <div class="hud-tl">
+    <div class="stat"><span class="lb">PONTOS</span><span class="vl" id="h-score">0</span></div>
+    <div class="stat"><span class="lb">ONDA</span><span class="vl" id="h-wave">1</span></div>
+    <div class="stat"><span class="lb">ATIVOS/AMEAÇAS</span><span class="vl" id="h-enem">0</span></div>
+  </div>
+  <canvas id="radar" width="150" height="150"></canvas>
+  <div class="hud-bl">
+    <div class="lb">INTEGRIDADE</div>
+    <div class="hp-track"><div class="hp-fill" id="h-hp"></div></div>
+    <div class="msl" id="h-msl">MÍSSIL: —</div>
+  </div>
+  <div class="hud-br">
+    <div class="stat"><span class="lb">VEL</span><span class="vl" id="h-speed">0</span><span class="un">km/h</span></div>
+    <div class="stat"><span class="lb">ALT</span><span class="vl" id="h-alt">0</span><span class="un">m</span></div>
+    <div class="stat"><span class="lb">TEMPO</span><span class="vl time-vl" id="h-time">00:00</span></div>
+  </div>
+  <div class="hud-msg" id="h-msg"></div>
+</div>
+
+<div id="cinematic-caption" class="hidden"></div>
+
+<div id="vignette"></div>
+<div id="dmg-flash"></div>
+<div id="game-container"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
