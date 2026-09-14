@@ -1,7 +1,8 @@
 
-#**SKYSTRIKE**
+<h1>SkyStrike</h1>
 
-SkyStrike é um jogo de combate aéreo desenvolvido em HTML, CSS e JavaScript com Three.js. O jogador pilota uma aeronave de combate em missões progressivas, enfrentando inimigos com inteligência artificial, gerenciamento simplificado de energia e diferentes níveis de dificuldade.
+
+<strong>SkyStrike</strong> é um jogo de combate aéreo desenvolvido em HTML, CSS e JavaScript com Three.js. O jogador pilota uma aeronave de combate em missões progressivas, enfrentando inimigos com inteligência artificial, gerenciamento simplificado de energia e diferentes níveis de dificuldade.
 
 O jogo possui visão externa e cockpit, campanha com 8 ondas, inimigos Elite, sistema de reforços, modo sobrevivência, retorno automático ao porta-aviões ao final da missão e sequência cinematográfica de pouso e encerramento.
 
